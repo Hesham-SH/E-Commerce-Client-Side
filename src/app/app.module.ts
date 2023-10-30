@@ -5,10 +5,11 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { ServerErrorComponent } from './server-error/server-error.component';
-import { ErrorInterceptor } from './core/error.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [AppComponent, ServerErrorComponent],
@@ -24,6 +25,11 @@ import { ErrorInterceptor } from './core/error.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true,
     },
   ],
